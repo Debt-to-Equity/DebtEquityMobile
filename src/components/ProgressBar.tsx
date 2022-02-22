@@ -1,52 +1,34 @@
-import React from 'react';
-import {View} from 'react-native';
-import {BarChart, Grid, StackedBarChart} from 'react-native-svg-charts';
+import React from "react";
+import { View } from "react-native";
+import { StackedBarChart } from "react-native-svg-charts";
+import { string } from "prop-types";
 
-interface Props {}
+interface Props {
+  data: {}[];
+  keys: string[];
+}
 
-const ProgressBar: React.FC<Props> = ({}) => {
-  const data = [
-    {
-      month: new Date(2015, 0, 1),
-      apples: 3840,
-      bananas: 1920,
-      cherries: 960,
-      dates: 400,
-      oranges: 400,
-    },
-    {
-      month: new Date(2015, 1, 1),
-      apples: 1600,
-      bananas: 1440,
-      cherries: 960,
-      dates: 400,
-    },
-    {
-      month: new Date(2015, 2, 1),
-      apples: 640,
-      bananas: 960,
-      cherries: 3640,
-      dates: 400,
-    },
-    {
-      month: new Date(2015, 3, 1),
-      apples: 3320,
-      bananas: 480,
-      cherries: 640,
-      dates: 400,
-    },
-  ];
+const ProgressBar: React.FC<Props> = ({ data, keys }) => {
+  // const data = [
+  //   {
+  //     month: new Date(2015, 0, 1),
+  //     paidOffDebt: 100000,
+  //     remainingDebt: 200000
+  //   }
+  // ];
 
-  const colors = ['#7b4173', '#a55194', '#ce6dbd', '#de9ed6'];
-  const keys = ['apples', 'bananas', 'cherries', 'dates'];
+  const colors = ["#7b4173", "#a55194"];
+  // const keys = ["paidOffDebt", "remainingDebt"];
+
   return (
     <StackedBarChart
-      style={{height: 200}}
+      style={{ height: 100 }}
       keys={keys}
       colors={colors}
       data={data}
       showGrid={false}
-      contentInset={{top: 30, bottom: 30}}
+      contentInset={{ top: 30, bottom: 30 }}
+      horizontal={true}
     />
   );
 };
