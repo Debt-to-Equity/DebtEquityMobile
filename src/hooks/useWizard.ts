@@ -37,9 +37,9 @@ export const useWizard = (initialValues: any) => {
     }
 
     const checkValues = () => {
-        let valid = false;
+        let valid = true;
         for (let val of values) {
-            if (!val.name) {
+            if (!val.amount) {
                 valid = false;
                 break;
             }

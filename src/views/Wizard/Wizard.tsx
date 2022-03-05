@@ -19,14 +19,12 @@ const Wizard = () => {
   const [debts, setDebts] = useState<IDebt[]>([]);
 
   const insertCreatedUserData = async user => {
-    console.log('function', user);
     updateUser(user);
 
     setDisplayType('debt');
   };
 
   const insertDebtData = (debt: IDebt[]) => {
-    console.log('insertDebtData', debt);
     setDebts(debt);
     setDisplayType('revenue');
   };

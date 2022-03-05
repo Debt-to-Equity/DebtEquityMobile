@@ -69,10 +69,10 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="Customer"
         component={CustomerDashboard}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
+        options={{
           title: 'Tab One',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        })}
+        }}
       />
       <BottomTab.Screen
         name="Agent"

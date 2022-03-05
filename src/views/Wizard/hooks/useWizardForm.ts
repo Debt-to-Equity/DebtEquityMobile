@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Value {
     name: string;
@@ -7,6 +7,11 @@ interface Value {
 
 export const useWizardForm = (defaultValues: Value[]) => {
     const [values, setValues] = useState(defaultValues)
+    const [isValid, setIsValid] = useState(false)
+
+    useEffect(() => {
+        checkForm()
+    }, [values])
 
     const insertValue = (newValue: Value) => {
         setValues([...values, newValue])
@@ -24,13 +29,16 @@ export const useWizardForm = (defaultValues: Value[]) => {
         setValues(newArr)
     }
 
-    const valuesValid = () => {
-        let isValid = true;
+    const checkForm = () => {
+        console.log('hello')
+        let formCheck = true;
         values.map(val => {
-            if (val.value === '') isValid = false;
+            console.log('helo')
+            if (val.value === '') formCheck = false;
         })
-        return isValid
+
+        setIsValid(formCheck);
     }
 
-    return [values, insertValue, updateValues, deleteValue, valuesValid]
+    return [values, insertValue, updateValues, deleteValue, isValid]
 }

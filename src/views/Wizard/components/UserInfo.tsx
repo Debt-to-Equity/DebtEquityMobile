@@ -19,9 +19,7 @@ const UserInfo: React.FC<UserInfoProps> = ({onRegistration}) => {
   });
   const {errorMessage, setErrorMessage} = useError();
   const [loading, setLoading] = useState(false);
-console.log('form', form)
-
-console.log('isValide', isValid)
+  
   const handleRegistration = async () => {
     setLoading(true);
     registerUser(form.email, form.firstName, form.lastName, form.phoneNumber)

@@ -21,16 +21,13 @@ export const useForm = (defaultValues: any) => {
         if (!form) return false;
         for (let f in form) {
             if (!form[f]) {
-                console.log('hello')
                 formCheck = false;
                 break;
             }
             formCheck = true
         }
-        console.log('in function', isValid)
         setIsValid(formCheck);
     }
 
-    console.log(isValid)
     return [form, editForm, updateObject, isValid]
 }
