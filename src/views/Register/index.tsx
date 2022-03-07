@@ -10,7 +10,7 @@ import { TextInput, HelperText, Text, Button, useTheme } from 'react-native-pape
 import { Colors } from '../../styles';
 import { BrightText, MediumText } from '../../components/Texts'
 import { useForm } from '../../hooks/useForm';
-import { loginUser } from '../../api/loginUser';
+import { updatePassword } from '../../api/updatePassword';
 import { useError } from '../../hooks/useError';
 
 interface IProps {
@@ -26,9 +26,9 @@ const Register = (props: IProps) => {
   const { errorMessage, setErrorMessage } = useError()
   const [loading, setLoading] = useState(false)
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     setLoading(true)
-    let response = await loginUser(form.email, form.password)
+    let response = await updatePassword(form.email, form.phoneNumber, form.password, form.token);
     if (response.error) {
       setLoading(false)
       setErrorMessage(response.message)
@@ -157,7 +157,7 @@ const Register = (props: IProps) => {
         <Button
           style={{ marginTop: 50, height: 40, justifyContent: 'center' }}
           mode="contained"
-          onPress={() => handleLogin()}
+          onPress={() => handleRegister()}
           disabled={Boolean(errorMessage)}
           loading={loading}
         >

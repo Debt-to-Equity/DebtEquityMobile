@@ -4,7 +4,6 @@ import {Button, TextInput} from 'react-native-paper';
 import {registerUser} from '../../../api/registerUser';
 import {useError} from '../../../hooks/useError';
 import {useForm} from '../../../hooks/useForm';
-import {useWizardForm} from '../hooks/useWizardForm';
 
 interface UserInfoProps {
   onRegistration: any;
