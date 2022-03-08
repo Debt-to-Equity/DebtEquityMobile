@@ -23,14 +23,15 @@ import LinkingConfiguration from './LinkingConfiguration';
 import Wizard from '../views/Wizard/Wizard';
 import Login from '../views/Login';
 import Register from '../views/Register';
+import { useUser } from '../hooks/useUser';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  const {user} = useUser()
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={DefaultTheme}>
-        <LoginNavigator />
-      {/* <RootNavigator /> */}
+        {!user ?  <LoginNavigator /> : <RootNavigator /> }
     </NavigationContainer>
   );
 }
