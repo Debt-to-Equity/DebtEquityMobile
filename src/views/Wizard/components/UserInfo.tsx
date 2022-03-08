@@ -28,7 +28,6 @@ const UserInfo: React.FC<UserInfoProps> = ({onRegistration}) => {
           setErrorMessage(res.message);
         } else {
           setLoading(false);
-          console.log(res);
           onRegistration(res);
         }
       })

@@ -49,7 +49,7 @@ const Revenue: React.FC<RevenueProps> = ({onSubmit, user}) => {
 
   const handleSubmit = async () => {
     console.log(user.id);
-    let stuff = await insertMultipleRevenue(values, user._id);
+    let stuff = await insertMultipleRevenue(values, user.id);
     onSubmit();
   };
 

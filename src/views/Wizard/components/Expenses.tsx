@@ -35,7 +35,7 @@ const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
   };
 
   const handleSubmit = async () => {
-    await insertBudget(values, user._id);
+    await insertBudget(values, user.id);
     onSubmit();
   };
 

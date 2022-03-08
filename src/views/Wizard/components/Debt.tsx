@@ -59,7 +59,7 @@ const Debt: React.FC<DebtProps> = ({onSubmit, user}) => {
   };
 
   const handleSubmit = async () => {
-    let debts = await insertMultipleDebts(values, user._id);
+    let debts = await insertMultipleDebts(values, user.id);
     onSubmit(debts);
   };
 

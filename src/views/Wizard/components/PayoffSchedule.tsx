@@ -19,7 +19,7 @@ const PayoffSchedule: React.FC<IProps> = ({user}) => {
   }, []);
 
   const getPayoff = async () => {
-    let payoffTime = await getPayoffSchedule(user?._id);
+    let payoffTime = await getPayoffSchedule(user?.id);
 
     setpayoff(payoffTime);
   };

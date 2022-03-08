@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {Button} from '../../components/Buttons';
-import {CardModal} from '../../components/Modals';
 import {useForm} from '../../hooks/useForm';
-import {IDebt} from '../../types';
-import Address from './components/Address';
+import {IDebt, IUser} from '../../types';
 import Debt from './components/Debt';
 import Expenses from './components/Expenses';
 import PayoffSchedule from './components/PayoffSchedule';
@@ -14,11 +11,9 @@ import UserInfo from './components/UserInfo';
 const Wizard = () => {
   const [displayType, setDisplayType] = useState('user');
   const [userData, editUser, updateUser] = useForm({});
-  const [revenueData, setRevenueData] = useForm({});
-  const [expenseData, setExpenseData] = useForm({});
   const [debts, setDebts] = useState<IDebt[]>([]);
 
-  const insertCreatedUserData = async user => {
+  const insertCreatedUserData = async (user: IUser) => {
     updateUser(user);
 
     setDisplayType('debt');
@@ -38,7 +33,7 @@ const Wizard = () => {
       {/* <PayoffSchedule user={userData} /> */}
 
       {displayType === 'debt' && (
-        <Debt user={userData} onSubmit={debt => insertDebtData(debt)} />
+        <Debt user={userData} onSubmit={(debt: any) => insertDebtData(debt)} />
       )}
       {displayType === 'revenue' && (
         <Revenue user={userData} onSubmit={() => setDisplayType('expense')} />
