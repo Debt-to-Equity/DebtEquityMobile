@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const useUser = () => {
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        getUser();
-    }, []);
+
+    }, [user]);
 
     const saveUser = async (newUser: {}) => {
         try {

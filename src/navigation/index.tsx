@@ -7,7 +7,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
+import  React, {useContext} from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../../constants/Colors';
@@ -26,12 +26,12 @@ import Register from '../views/Register';
 import { useUser } from '../hooks/useUser';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const {user} = useUser()
+  
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={DefaultTheme}>
-        {!user ?  <LoginNavigator /> : <RootNavigator /> }
+        {!user.id ?  <LoginNavigator /> : <RootNavigator /> }
     </NavigationContainer>
   );
 }

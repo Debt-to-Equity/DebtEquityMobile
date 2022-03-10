@@ -12,6 +12,7 @@ import { BrightText, MediumText } from '../../components/Texts'
 import { useForm } from '../../hooks/useForm';
 import { loginUser } from '../../api/loginUser';
 import { useError } from '../../hooks/useError';
+import { useUser } from '../../hooks/useUser';
 
 interface IProps {
   navigation: any;
@@ -19,6 +20,7 @@ interface IProps {
 }
 
 const Login = (props: IProps) => {
+  const {saveUser} = useUser();
   const { colors } = useTheme();
   const [form, handleFormUpdate] = useForm({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +35,7 @@ const Login = (props: IProps) => {
       setErrorMessage(response.message)
     } else {
       setLoading(false)
-      console.log(response)
+      console.log('data',response)
     }
   }
 
