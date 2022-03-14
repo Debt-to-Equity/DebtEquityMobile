@@ -38,7 +38,13 @@ export default function Navigation({
   return (
     <NavigationContainer linking={LinkingConfiguration} theme={DefaultTheme}>
       <UserContext.Provider value={{ user, saveUser, getUser, logoutUser }}>
-        {!user?.id ? <LoginNavigator /> : <RootNavigator />}
+        {!user?.id ? (
+          <LoginNavigator />
+        ) : user.userType === "client" ? (
+          <ClientTabNavigator />
+        ) : (
+          <AgentTabNavigator />
+        )}
       </UserContext.Provider>
     </NavigationContainer>
   );
@@ -49,27 +55,6 @@ export default function Navigation({
  * https://reactnavigation.org/docs/modal
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-function RootNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        component={BottomTabNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
-      <Stack.Screen name="Wizard" component={Wizard} />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
-    </Stack.Navigator>
-  );
-}
 
 function LoginNavigator() {
   return (
@@ -98,7 +83,7 @@ function LoginNavigator() {
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
+function AdminTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
@@ -109,18 +94,54 @@ function BottomTabNavigator() {
       }}
     >
       <BottomTab.Screen
-        name="Customer"
-        component={CustomerDashboard}
+        name="Agent"
+        component={AgentDashboard}
         options={{
-          title: "Tab One",
+          title: "Agent",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
+    </BottomTab.Navigator>
+  );
+}
+
+function AgentTabNavigator() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <BottomTab.Navigator
+      initialRouteName="Agent"
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme].tint,
+      }}
+    >
       <BottomTab.Screen
         name="Agent"
         component={AgentDashboard}
         options={{
           title: "Agent",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+    </BottomTab.Navigator>
+  );
+}
+
+function ClientTabNavigator() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <BottomTab.Navigator
+      initialRouteName="Customer"
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme].tint,
+      }}
+    >
+      <BottomTab.Screen
+        name="Customer"
+        component={CustomerDashboard}
+        options={{
+          title: "Tab One",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
