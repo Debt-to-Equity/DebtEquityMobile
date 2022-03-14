@@ -3,11 +3,22 @@ export interface IText {
   children: any;
 }
 
+export interface IAddress {
+  streetName: string;
+  postalCode: string;
+  province: string;
+  country: string;
+}
+
 export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
+  loggedIn: boolean;
+  userType: 'client' | 'admin' | 'agent' | '';
+  parentId: string;
+  address?: IAddress;
 }
 
 export interface ICombined {

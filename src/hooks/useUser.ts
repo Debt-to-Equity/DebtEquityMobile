@@ -1,40 +1,57 @@
-import { useState, useEffect, createContext } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect, createContext } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IUser } from "../types";
 
 export const useUser = () => {
-    const [user, setUser] = useState({});
+  const [user, setUser] = useState<IUser>({
+    id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    loggedIn: false,
+    userType: "",
+    parentId: "",
+  });
 
-    useEffect(() => {
+  useEffect(() => {
+    getUser();
+  }, []);
 
-    }, [user]);
+  const saveUser = async (newUser: {}) => {
+    try {
+      const jsonValue = JSON.stringify(newUser);
+      await AsyncStorage.setItem("user", jsonValue);
+      getUser();
+    } catch (e) {
+      // saving error
+    }
+  };
 
-    const saveUser = async (newUser: {}) => {
-        try {
-            const jsonValue = JSON.stringify(newUser);
-            await AsyncStorage.setItem('user', jsonValue);
-            return setUser(user);
-        } catch (e) {
-            // saving error
-        };
-    };
+  const getUser = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("user");
+      return jsonValue != null ? setUser(JSON.parse(jsonValue)) : null;
+    } catch (e) {
+      // error reading value
+    }
+  };
 
-    const getUser = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('user');
-            return jsonValue != null ? setUser(JSON.parse(jsonValue)) : null;
-        } catch (e) {
-            // error reading value
-        };
-    };
+  const logoutUser = async () => {
+    try {
+      await AsyncStorage.removeItem("user");
+      setUser({
+        id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        loggedIn: false,
+        userType: "",
+        parentId: "",
+      });
+    } catch (e) {
+      // saving error
+    }
+  };
 
-    const deleteUser = async () => {
-        try {
-            await AsyncStorage.removeItem('user');
-            return setUser({});
-        } catch (e) {
-            // saving error
-        };
-    };
-
-    return { user, deleteUser, getUser, saveUser };
+  return { user, logoutUser, getUser, saveUser };
 };

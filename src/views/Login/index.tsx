@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -13,14 +13,14 @@ import { useForm } from '../../hooks/useForm';
 import { loginUser } from '../../api/loginUser';
 import { useError } from '../../hooks/useError';
 import { useUser } from '../../hooks/useUser';
+import { UserContext } from '../../context/UserContext';
 
 interface IProps {
   navigation: any;
-  saveUser: (user: any) => {};
 }
 
-const Login = (props: IProps) => {
-  const {saveUser} = useUser();
+const Login: React.FC<IProps> = ({navigation}) => {
+  const {user, saveUser} = useContext(UserContext);
   const { colors } = useTheme();
   const [form, handleFormUpdate] = useForm({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +35,7 @@ const Login = (props: IProps) => {
       setErrorMessage(response.message)
     } else {
       setLoading(false)
-      console.log('data',response)
+      saveUser(response)
     }
   }
 
@@ -95,7 +95,7 @@ const Login = (props: IProps) => {
             marginLeft: 20,
           }}>
           <MediumText>Need to Register? </MediumText>
-          <TouchableOpacity onPress={() => props.navigation.navigate('Register')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <Text style={{ color: colors.primary }}>Register here</Text>
           </TouchableOpacity>
         </View>
