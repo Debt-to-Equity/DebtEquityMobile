@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {View, ScrollView, FlatList} from 'react-native';
-import {TextInput, Text, Button, Title} from 'react-native-paper';
-import {insertBudget} from '../../../api/insertBudget';
-import {BrightText} from '../../../components/Texts';
-import {useWizard} from '../../../hooks/useWizard';
-import {IUser, IWizardObj, IDebt} from '../../../types';
-import {expenses} from '../data';
-import AddNew from './AddNew';
-import ExpenseDisplay from './ExpenseDisplay';
+import React, { useState, useEffect } from "react";
+import { View, ScrollView, FlatList } from "react-native";
+import { TextInput, Text, Button, Title } from "react-native-paper";
+import { insertBudget } from "../../../api/insertBudget";
+import { BrightText } from "../../../components/Texts";
+import { useWizard } from "../../../hooks/useWizard";
+import { IUser, IWizardObj, IDebt } from "../../../types";
+import { expenses } from "../data";
+import AddNew from "./AddNew";
+import ExpenseDisplay from "./ExpenseDisplay";
 
 interface ExpensesProps {
   onSubmit: any;
@@ -15,10 +15,10 @@ interface ExpensesProps {
   debts: IDebt[];
 }
 
-const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
+const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
   const [showNewValue, setShowNewValue] = useState(false);
-  const [newValue, setNewValue] = useState({name: '', amount: ''});
-  const [sliceValues, setSliceValues] = useState({value1: 0, value2: 3});
+  const [newValue, setNewValue] = useState({ name: "", amount: "" });
+  const [sliceValues, setSliceValues] = useState({ value1: 0, value2: 3 });
 
   const [values, handleChange, addNewValue, editMultipleValues, isValid] =
     useWizard(expenses);
@@ -39,7 +39,7 @@ const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
     onSubmit();
   };
 
-  const renderExpense = ({item, index}: any) => {
+  const renderExpense = ({ item, index }: any) => {
     return (
       <ExpenseDisplay
         expense={item}
@@ -55,22 +55,26 @@ const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
   };
 
   return (
-    <View style={{height: '100%'}}>
-      <View style={{paddingTop: 50, paddingHorizontal: 20, paddingBottom: 30}}>
-        <View style={{height: '75%'}}>
-          <Title style={{alignSelf: 'center'}}>Expenses</Title>
+    <View style={{ height: "100%" }}>
+      <View
+        style={{ paddingTop: 50, paddingHorizontal: 20, paddingBottom: 30 }}
+      >
+        <View style={{ height: "75%" }}>
+          <Title style={{ alignSelf: "center" }}>Expenses</Title>
           <FlatList
             data={values.slice(sliceValues.value1, sliceValues.value2)}
             scrollEnabled={false}
             renderItem={renderExpense}
           />
         </View>
-        <View style={{height: '25%'}}>
-          <Text style={{fontSize: 23, marginBottom: 10, marginTop: -25}}>
+        <View style={{ height: "25%" }}>
+          <Text style={{ fontSize: 23, marginBottom: 10, marginTop: -25 }}>
             Total Monthly Expenses: {totalValue() ? totalValue() : 0}
           </Text>
 
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
             {sliceValues.value1 !== 0 ? (
               <Button
                 icon="chevron-left"
@@ -80,7 +84,8 @@ const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
                     value2: sliceValues.value2 - 3,
                   })
                 }
-                style={{alignSelf: 'flex-end'}}>
+                style={{ alignSelf: "flex-end" }}
+              >
                 Previous
               </Button>
             ) : (
@@ -89,14 +94,15 @@ const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
 
             {sliceValues.value2 <= values.length && (
               <Button
-                contentStyle={{flexDirection: 'row-reverse'}}
+                contentStyle={{ flexDirection: "row-reverse" }}
                 icon="chevron-right"
                 onPress={() =>
                   setSliceValues({
                     value1: sliceValues.value1 + 3,
                     value2: sliceValues.value2 + 3,
                   })
-                }>
+                }
+              >
                 Next
               </Button>
             )}
@@ -106,18 +112,18 @@ const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
             <AddNew
               onCancel={() => {
                 setShowNewValue(false);
-                setNewValue({name: '', amount: ''});
+                setNewValue({ name: "", amount: "" });
               }}
               addNewValue={() => {
                 addNewValue(newValue.name, newValue.amount);
                 setShowNewValue(false);
-                setNewValue({name: '', amount: ''});
+                setNewValue({ name: "", amount: "" });
               }}
               onChangeNameText={(text: string) =>
-                setNewValue({...newValue, name: text})
+                setNewValue({ ...newValue, name: text })
               }
               onChangeValueText={(text: string) =>
-                setNewValue({...newValue, amount: text})
+                setNewValue({ ...newValue, amount: text })
               }
               amount={newValue.amount}
               name={newValue.name}
@@ -127,16 +133,18 @@ const Expenses: React.FC<ExpensesProps> = ({onSubmit, user, debts}) => {
               <Button
                 disabled={false}
                 loading={false}
-                onPress={() => setShowNewValue(true)}>
+                onPress={() => setShowNewValue(true)}
+              >
                 Add Expense
               </Button>
             )
           )}
           <Button
-            style={{marginTop: 25}}
-            disabled={isValid}
+            style={{ marginTop: 25 }}
+            disabled={false}
             mode="contained"
-            onPress={() => handleSubmit()}>
+            onPress={() => handleSubmit()}
+          >
             Submit
           </Button>
         </View>

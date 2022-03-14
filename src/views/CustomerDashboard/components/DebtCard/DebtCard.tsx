@@ -9,11 +9,10 @@ import LineGraph from "../../../../components/LineGraph";
 import ProgressBar from "../../../../components/ProgressBar";
 import { BrightText } from "../../../../components/Texts";
 import { combineCategoryAndActual } from "../../../../functions/combine";
-import { IDebt, IDebtCategory } from "../../../../types";
+import { IDebt, IDebtCategory, IDebts } from "../../../../types";
 
 interface DebtCardProps {
-  debts: IDebt[];
-  debtCategories: IDebtCategory[];
+  debts: IDebts;
   onInsertPress: any;
 }
 
@@ -21,17 +20,13 @@ const data = [
   {
     month: new Date(2015, 0, 1),
     paidOffDebt: 100000,
-    remainingDebt: 200000
-  }
+    remainingDebt: 200000,
+  },
 ];
 
 const keys = ["paidOffDebt", "remainingDebt"];
 
-const DebtCard: React.FC<DebtCardProps> = ({
-  debts,
-  debtCategories,
-  onInsertPress
-}) => {
+const DebtCard: React.FC<DebtCardProps> = ({ debts, onInsertPress }) => {
   const navigation = useNavigation();
 
   return (
@@ -41,11 +36,11 @@ const DebtCard: React.FC<DebtCardProps> = ({
       </View>
       <Button onPress={onInsertPress}>Insert a Debt Payment</Button>
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("TransactionView", {
-            transactions: combineCategoryAndActual(debtCategories, debts)
-          })
-        }
+      // onPress={() =>
+      //   navigation.navigate("TransactionView", {
+      //     transactions: combineCategoryAndActual(debtCategories, debts),
+      //   })
+      // }
       >
         <BrightText>Total Debt</BrightText>
         <ProgressBar data={data} keys={keys} />
@@ -58,14 +53,14 @@ export default DebtCard;
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 25
+    fontSize: 25,
   },
   headerContainer: {
     alignItems: "center",
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   card: {
     padding: 10,
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });

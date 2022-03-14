@@ -16,32 +16,9 @@ export interface IUser {
   lastName: string;
   email: string;
   loggedIn: boolean;
-  userType: 'client' | 'admin' | 'agent' | '';
+  userType: "client" | "admin" | "agent" | "";
   parentId: string;
   address?: IAddress;
-}
-
-export interface ICombined {
-  name: string;
-  number: number;
-  categoryId: number;
-  color: string;
-  extraData: IActual[]
-}
-
-export interface IPlanned {
-  name: string;
-  isEditable: boolean;
-  id: number;
-  color: string;
-  number: number;
-}
-
-export interface IActual {
-  name: string;
-  id: number;
-  number: number;
-  categoryId: number;
 }
 
 export interface IDebtCategory {
@@ -50,11 +27,24 @@ export interface IDebtCategory {
   id: number;
 }
 
+export interface ITotalDebt {
+  startingAmount: number;
+  amountRemaining: number;
+}
+
 export interface IDebt {
-  _id: string;
-  userId: string;
-  amount: number;
+  id: string;
   name: string;
+  startingAmount: number;
+  amountRemaining: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IDebts {
+  userId: string;
+  totalDebt: ITotalDebt;
+  debts: IDebt[];
 }
 
 export interface IWizardObj {
@@ -63,32 +53,30 @@ export interface IWizardObj {
   amount: string;
 }
 
-export interface IExpenseI {
-
-}
+export interface IExpenseI {}
 
 export interface IIcons {
   iconType:
-  | 'logo'
-  | 'paperclip'
-  | 'close'
-  | 'close'
-  | 'eye'
-  | 'eye-off'
-  | 'account-circle'
-  | 'key'
-  | 'left-chevron'
-  | 'calendar-blank'
-  | 'card'
-  | 'plus-circle-outline'
-  | 'chevron-up'
-  | 'chevron-down'
-  | 'video-call'
-  | 'search'
-  | 'channel'
-  | 'dollar-sign'
-  | 'settings'
-  | 'question-mark'
-  | 'logout'
-  | 'add-photo';
+    | "logo"
+    | "paperclip"
+    | "close"
+    | "close"
+    | "eye"
+    | "eye-off"
+    | "account-circle"
+    | "key"
+    | "left-chevron"
+    | "calendar-blank"
+    | "card"
+    | "plus-circle-outline"
+    | "chevron-up"
+    | "chevron-down"
+    | "video-call"
+    | "search"
+    | "channel"
+    | "dollar-sign"
+    | "settings"
+    | "question-mark"
+    | "logout"
+    | "add-photo";
 }

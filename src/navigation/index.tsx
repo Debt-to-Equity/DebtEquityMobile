@@ -33,7 +33,6 @@ export default function Navigation({
   colorScheme: ColorSchemeName;
 }) {
   const { user, saveUser, getUser, logoutUser } = useUser();
-  console.log(user);
 
   return (
     <NavigationContainer linking={LinkingConfiguration} theme={DefaultTheme}>
@@ -41,9 +40,9 @@ export default function Navigation({
         {!user?.id ? (
           <LoginNavigator />
         ) : user.userType === "client" ? (
-          <ClientTabNavigator />
+          <ClientNavigator />
         ) : (
-          <AgentTabNavigator />
+          <AgentNavigator />
         )}
       </UserContext.Provider>
     </NavigationContainer>
@@ -74,6 +73,56 @@ function LoginNavigator() {
         component={Register}
         options={{ headerShown: false }}
       />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="Modal" component={ModalScreen} />
+      </Stack.Group>
+    </Stack.Navigator>
+  );
+}
+
+function AgentNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Agent"
+        component={AgentTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: "Oops!" }}
+      />
+      <Stack.Screen
+        name="Wizard"
+        component={Wizard}
+        // options={{ headerShown: false }}
+      />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="Modal" component={ModalScreen} />
+      </Stack.Group>
+    </Stack.Navigator>
+  );
+}
+
+function ClientNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Client"
+        component={ClientTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: "Oops!" }}
+      />
+      {/* <Stack.Screen
+        name=""
+        component={Register}
+        options={{ headerShown: false }}
+      /> */}
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
@@ -132,7 +181,7 @@ function ClientTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Customer"
+      initialRouteName="Client"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}

@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IUser } from "../types";
+import { loginUser } from "../api/loginUser";
 
 export const useUser = () => {
   const [user, setUser] = useState<IUser>({
