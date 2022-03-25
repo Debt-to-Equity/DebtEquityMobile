@@ -89,6 +89,11 @@ function AgentNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Client"
+        component={CustomerDashboard}
+        // options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
@@ -96,7 +101,7 @@ function AgentNavigator() {
       <Stack.Screen
         name="Wizard"
         component={Wizard}
-        // options={{ headerShown: false }}
+        options={{ headerShown: false }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />

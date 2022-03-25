@@ -11,9 +11,12 @@ import { useInsertModal } from "../../hooks/useInsertModal";
 import { IDebts } from "../../types";
 import { getUserDebts } from "../../api/getUserDebt";
 import { UserContext } from "../../context/UserContext";
+import { Button } from "react-native-paper";
 
-const Dashboard = ({ navigation }) => {
-  const { user } = useContext(UserContext);
+const Dashboard = ({ navigation, route }) => {
+  const { user, logoutUser } = useContext(UserContext);
+  console.log(route);
+
   const {
     showInsertModal,
     insertHeader,
@@ -39,9 +42,15 @@ const Dashboard = ({ navigation }) => {
   }, []);
 
   const getDebts = async () => {
-    let data = await getUserDebts(user.id);
-
+    let id = route.params?.client?.id ?? user.id;
+    let data = await getUserDebts(id);
+    console.log(data);
     setDebt(data);
+  };
+
+  const getExpenses = () => {
+    let id = route.params?.client?.id ?? user.id;
+    let expenses;
   };
 
   return (
@@ -79,6 +88,10 @@ const Dashboard = ({ navigation }) => {
         debts={debt}
         debtCategories={debtCategories}
       />
+
+      <Button icon="logout" mode="contained" onPress={() => logoutUser()}>
+        Logout
+      </Button>
       {/* <ItemCard
         navigation={navigation}
         onInsertPress={() => setIsInsertModalVisible(true, "Expense", debt)}

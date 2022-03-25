@@ -7,10 +7,8 @@ import { IUser } from "../../types";
 import { getClients as getClientsAPI } from "../../api/getClients";
 import { UserContext } from "../../context/UserContext";
 
-const optionsPerPage = [2, 3, 4];
-
 const AgentDashboard = ({ navigation }: any) => {
-  const { user } = useContext(UserContext);
+  const { user, logoutUser } = useContext(UserContext);
   const [clients, setClients] = useState<IUser | []>([]);
 
   useEffect(() => {
@@ -19,7 +17,6 @@ const AgentDashboard = ({ navigation }: any) => {
 
   const getClients = async () => {
     const stuff = await getClientsAPI(user.id);
-    console.log(stuff);
     setClients(stuff);
   };
 
@@ -27,6 +24,9 @@ const AgentDashboard = ({ navigation }: any) => {
     <List.Item
       title={`${item.firstName} ${item.lastName}`}
       description={item.email}
+      onPress={() => {
+        navigation.navigate("Client", { client: item });
+      }}
     />
   );
 
@@ -44,6 +44,9 @@ const AgentDashboard = ({ navigation }: any) => {
         renderItem={renderItem}
         // keyExtractor={(item) => item.id}
       />
+      <Button icon="logout" mode="contained" onPress={() => logoutUser()}>
+        Logout
+      </Button>
     </View>
   );
 };

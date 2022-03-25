@@ -67,9 +67,9 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
             renderItem={renderExpense}
           />
         </View>
-        <View style={{ height: "25%" }}>
+        <View>
           <Text style={{ fontSize: 23, marginBottom: 10, marginTop: -25 }}>
-            Total Monthly Expenses: {totalValue() ? totalValue() : 0}
+            Total Monthly Expenses: {totalValue() ?? 0}
           </Text>
 
           <View
@@ -140,7 +140,7 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
             )
           )}
           <Button
-            style={{ marginTop: 25 }}
+            style={{ marginTop: 10 }}
             disabled={false}
             mode="contained"
             onPress={() => handleSubmit()}

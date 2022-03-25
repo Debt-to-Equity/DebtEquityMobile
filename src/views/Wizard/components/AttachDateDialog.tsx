@@ -1,6 +1,6 @@
-import {jsxAttribute} from '@babel/types';
-import React, {useState} from 'react';
-import {TouchableOpacity, View, FlatList} from 'react-native';
+import { jsxAttribute } from "@babel/types";
+import React, { useState } from "react";
+import { TouchableOpacity, View, FlatList } from "react-native";
 import {
   Button,
   Dialog,
@@ -11,10 +11,10 @@ import {
   Text,
   Switch,
   TextInput,
-} from 'react-native-paper';
-import {DebugInstructions} from 'react-native/Libraries/NewAppScreen';
-import Search from '../../../components/Search';
-import {IDebt} from '../../../types';
+} from "react-native-paper";
+import { DebugInstructions } from "react-native/Libraries/NewAppScreen";
+import Search from "../../../components/Search";
+import { IDebt } from "../../../types";
 
 interface AttachDebtDialogProps {
   isVisible: boolean;
@@ -30,9 +30,9 @@ const AttachDebtDialog: React.FC<AttachDebtDialogProps> = ({
   debt,
 }) => {
   const [selectedDebtId, setSelectedDebtId] = useState<string | null>(null);
-  const [searchText, setSearchText] = useState('');
-  const [interestRate, setInterestRate] = useState('');
-  const [yearsLeft, setYearsLeft] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [interestRate, setInterestRate] = useState("");
+  const [yearsLeft, setYearsLeft] = useState("");
   const [isAmortized, setIsAmortized] = useState(true);
 
   return (
@@ -40,7 +40,8 @@ const AttachDebtDialog: React.FC<AttachDebtDialogProps> = ({
       <Dialog
         visible={isVisible}
         onDismiss={onCancel}
-        style={{minHeight: 250, padding: 10}}>
+        style={{ minHeight: 250, padding: 10 }}
+      >
         <Search
           searchText={searchText}
           onChangeText={(text: string) => {
@@ -48,20 +49,21 @@ const AttachDebtDialog: React.FC<AttachDebtDialogProps> = ({
             setSelectedDebtId(null);
           }}
           onSelect={(item: IDebt) => {
-            setSelectedDebtId(item._id);
+            setSelectedDebtId(item.id);
             setSearchText(item.name);
           }}
           searchArray={debt
-            .filter(ele => ele.name.includes(searchText))
+            .filter((ele) => ele.name.includes(searchText))
             .slice(0, 3)}
         />
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: "row",
+            alignItems: "center",
             paddingBottom: 15,
-          }}>
-          <Text style={{paddingRight: 15, fontSize: 18}}>Amortized?</Text>
+          }}
+        >
+          <Text style={{ paddingRight: 15, fontSize: 18 }}>Amortized?</Text>
           <Switch
             value={isAmortized}
             onValueChange={() => {
@@ -71,18 +73,20 @@ const AttachDebtDialog: React.FC<AttachDebtDialogProps> = ({
         </View>
 
         <TextInput
-          style={{width: 200}}
+          style={{ width: 200 }}
           mode="outlined"
           label="Years Left"
           value={yearsLeft}
-          onChangeText={text => setYearsLeft(text)}
+          onChangeText={(text) => setYearsLeft(text)}
+          keyboardType="number-pad"
         />
         <TextInput
-          style={{width: 200}}
+          style={{ width: 200 }}
           mode="outlined"
           label="Interest Rate"
           value={interestRate}
-          onChangeText={text => setInterestRate(text)}
+          onChangeText={(text) => setInterestRate(text)}
+          keyboardType="number-pad"
         />
 
         <Dialog.Actions>
@@ -90,12 +94,13 @@ const AttachDebtDialog: React.FC<AttachDebtDialogProps> = ({
           <Button
             onPress={() => {
               onSave(selectedDebtId, interestRate, isAmortized, yearsLeft);
-              setSearchText('');
+              setSearchText("");
               setSelectedDebtId(null);
-              setInterestRate('');
+              setInterestRate("");
               setIsAmortized(true);
-              setYearsLeft('');
-            }}>
+              setYearsLeft("");
+            }}
+          >
             Ok
           </Button>
         </Dialog.Actions>
