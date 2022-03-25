@@ -12,6 +12,7 @@ import { IDebts } from "../../types";
 import { getUserDebts } from "../../api/getUserDebt";
 import { UserContext } from "../../context/UserContext";
 import { Button } from "react-native-paper";
+import { getUserBudget } from "../../api/getUserBudget";
 
 const Dashboard = ({ navigation, route }) => {
   const { user, logoutUser } = useContext(UserContext);
@@ -39,18 +40,19 @@ const Dashboard = ({ navigation, route }) => {
 
   useEffect(() => {
     getDebts();
+    getBudget();
   }, []);
 
   const getDebts = async () => {
     let id = route.params?.client?.id ?? user.id;
     let data = await getUserDebts(id);
-    console.log(data);
     setDebt(data);
   };
 
-  const getExpenses = () => {
+  const getBudget = async () => {
     let id = route.params?.client?.id ?? user.id;
-    let expenses;
+    let budget = await getUserBudget(id);
+    console.log(budget);
   };
 
   return (
