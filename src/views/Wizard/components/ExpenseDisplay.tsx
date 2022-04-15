@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {Searchbar, Switch, Text, TextInput} from 'react-native-paper';
-import {IDebt} from '../../../types';
-import AttachDebtDialog from './AttachDateDialog';
+import React, { useState } from "react";
+import { View } from "react-native";
+import { Searchbar, Switch, Text, TextInput } from "react-native-paper";
+import { IDebt } from "../../../types";
+import AttachDebtDialog from "./AttachDateDialog";
 
 interface ExpesneDisplayProps {
   id: number;
@@ -38,10 +38,10 @@ const ExpenseDisplay: React.FC<ExpesneDisplayProps> = ({
 
   const displaySelectedDebt = () => {
     const [selectedDebt] = debt.filter(
-      (ele: IDebt) => ele._id === expense.debtId,
+      (ele: IDebt) => ele._id === expense.debtId
     );
     return (
-      <Text style={{fontSize: 18, paddingLeft: 15}}>
+      <Text style={{ fontSize: 18, paddingLeft: 15 }}>
         Attached Debt: {selectedDebt?.name}
       </Text>
     );
@@ -51,11 +51,11 @@ const ExpenseDisplay: React.FC<ExpesneDisplayProps> = ({
     debtId: string,
     interestRate: string,
     amortized: boolean,
-    yearsLeft: string,
+    yearsLeft: string
   ) => {
     editMultipleValues(
-      {...expense, debtId, interestRate, amortized, yearsLeft, amount: 0},
-      id,
+      { ...expense, debtId, interestRate, amortized, yearsLeft, amount: 0 },
+      id
     );
     setDisplayModal(false);
   };
@@ -78,15 +78,17 @@ const ExpenseDisplay: React.FC<ExpesneDisplayProps> = ({
         <Text>Estimated Payment: 4000</Text>
       ) : (
         <TextInput
-          style={{marginTop: 10}}
+          style={{ marginTop: 10 }}
           mode="outlined"
-          onChangeText={text => handleTextChange(text, id)}
+          onChangeText={(text) => handleTextChange(text, id)}
           label={name}
           value={value}
           keyboardType="number-pad"
         />
       )}
-      <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 5}}>
+      <View
+        style={{ flexDirection: "row", alignItems: "center", paddingTop: 5 }}
+      >
         <Switch
           value={isSwitchOn}
           onValueChange={() => {
@@ -96,7 +98,7 @@ const ExpenseDisplay: React.FC<ExpesneDisplayProps> = ({
               return;
             }
             onToggleSwitch(false);
-            handleDebtPayment('', '', false, '');
+            handleDebtPayment("", "", false, "");
           }}
         />
         {expense.debtId ? displaySelectedDebt() : null}

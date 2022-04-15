@@ -8,12 +8,16 @@ import ItemCard from "./components/ItemCard";
 import DebtCard from "./components/DebtCard/DebtCard";
 import InsertModal from "../../components/Modals/components/InsertModal";
 import { useInsertModal } from "../../hooks/useInsertModal";
-import { IDebts } from "../../types";
+import { IBudget, IDebts } from "../../types";
 import { getUserDebts } from "../../api/getUserDebt";
 import { UserContext } from "../../context/UserContext";
+import { Button } from "react-native-paper";
+import { getUserBudget } from "../../api/getUserBudget";
+import BudgetCard from "./components/BudgetCard/BudgetCard";
 
-const Dashboard = ({ navigation }) => {
-  const { user } = useContext(UserContext);
+const Dashboard = ({ navigation, route }) => {
+  const { user, logoutUser } = useContext(UserContext);
+
   const {
     showInsertModal,
     insertHeader,
@@ -32,19 +36,33 @@ const Dashboard = ({ navigation }) => {
       id: 2
     }
   ]);
-  const [debt, setDebt] = useState<IDebts>();
+  const [debt, setDebt] = useState<IDebts[]>();
+  const [budget, setBudget] = useState<IBudget[] | string>("No Budget Set");
 
   useEffect(() => {
     getDebts();
+    getBudget();
   }, []);
 
-  const getDebts = async () => {
-    let data = await getUserDebts(user.id);
+  let isAgent = typeof route.params?.client !== "undefined";
 
+  const getDebts = async () => {
+    let id = route.params?.client?.id ?? user.id;
+    let data = await getUserDebts(id);
     setDebt(data);
   };
 
+<<<<<<< HEAD
   console.log("customerDashboard", debt);
+=======
+  const getBudget = async () => {
+    let id = route.params?.client?.id ?? user.id;
+    let budget = await getUserBudget(id);
+    console.log(budget);
+    setBudget(budget);
+  };
+
+>>>>>>> 0190153849d494368fd9bc2d84c423ce1cbc0011
   return (
     <ScrollView style={{ padding: 10 }}>
       <InsertModal
@@ -53,50 +71,24 @@ const Dashboard = ({ navigation }) => {
         onPress={() => {}}
         onClose={() => setIsInsertModalVisible(false)}
       />
-      {/* <CashFlowContainer
-        firstName="Budget"
-        secondName="Revenue"
-        firstTotal={itemTotal(budget)}
-        secondTotal={itemTotal(revenueCategories)}
-        budget={budget}
-        revenue={revenueCategories}
-        time={getTime(revenueCategories, budget, debt)}
-        header="Estimated"
-      />
-      <CashFlowContainer
-        firstName="Expenses"
-        secondName="Revenue"
-        firstTotal={itemTotal(expenses)}
-        secondTotal={itemTotal(actualRevenue)}
-        budget={expenses}
-        revenue={actualRevenue}
-        time={getTime(actualRevenue, expenses, debt)}
-        header="Actual"
-      /> */}
       <DebtCard
         onInsertPress={() =>
           setIsInsertModalVisible(true, "Debt Payment", debt)
         }
         debts={debt}
       />
-      {/* <ItemCard
-        navigation={navigation}
-        onInsertPress={() => setIsInsertModalVisible(true, "Expense", debt)}
-        header="Budget"
-        dataTotal={itemTotal(budget)}
-        data={budget}
-        comparibleData={expenses}
-        comparibleDataTotal={itemTotal(expenses)}
+      <BudgetCard
+        budget={budget}
+        userId={route.params?.client?.id}
+        debts={debt}
+        client={route.params?.client}
       />
-      <ItemCard
-        navigation={navigation}
-        onInsertPress={() => setIsInsertModalVisible(true, "Revenue", debt)}
-        header="Revenue"
-        dataTotal={itemTotal(revenueCategories)}
-        data={revenueCategories}
-        comparibleData={actualRevenue}
-        comparibleDataTotal={itemTotal(actualRevenue)}
-      /> */}
+
+      {!isAgent && (
+        <Button icon="logout" mode="contained" onPress={() => logoutUser()}>
+          Logout
+        </Button>
+      )}
     </ScrollView>
   );
 };

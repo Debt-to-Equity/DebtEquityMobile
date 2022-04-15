@@ -1,59 +1,52 @@
-import React, {useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {DataTable, Button} from 'react-native-paper';
-import {BrightText} from '../../components/Texts';
-import {Colors} from '../../styles';
-import {IUser} from '../../types';
+import React, { useEffect, useState, useContext } from "react";
+import { FlatList, TouchableOpacity, View } from "react-native";
+import { DataTable, Button, List } from "react-native-paper";
+import { BrightText } from "../../components/Texts";
+import { Colors } from "../../styles";
+import { IUser } from "../../types";
+import { getClients as getClientsAPI } from "../../api/getClients";
+import { UserContext } from "../../context/UserContext";
 
-const optionsPerPage = [2, 3, 4];
+const AgentDashboard = ({ navigation }: any) => {
+  const { user, logoutUser } = useContext(UserContext);
+  const [clients, setClients] = useState<IUser | []>([]);
 
-const AgentDashboard = ({navigation}: any) => {
-  const [page, setPage] = React.useState<number>(0);
-  const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
+  useEffect(() => {
+    getClients();
+  }, []);
 
-  React.useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
+  const getClients = async () => {
+    const stuff = await getClientsAPI(user.id);
+    setClients(stuff);
+  };
 
-  // const renderItem = users.map(item => {
-  //   return (
-  //     <TouchableOpacity
-  //       onPress={() => navigation.navigate('CustomerDashboard', {item})}>
-  //       <DataTable.Row>
-  //         <DataTable.Cell>{`${item.firstName} ${item.lastName}`}</DataTable.Cell>
-  //         <DataTable.Cell>{item.email}</DataTable.Cell>
-  //         <DataTable.Cell>{false}</DataTable.Cell>
-  //       </DataTable.Row>
-  //     </TouchableOpacity>
-  //   );
-  // });
+  const renderItem = ({ item }) => (
+    <List.Item
+      title={`${item.firstName} ${item.lastName}`}
+      description={item.email}
+      onPress={() => {
+        navigation.navigate("Client", { client: item });
+      }}
+    />
+  );
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{ flex: 1 }}>
       <Button
         icon="account-plus"
         mode="contained"
-        onPress={() => navigation.push('Wizard')}>
+        onPress={() => navigation.push("Wizard")}
+      >
         Add Customer
       </Button>
-      {/* <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Name</DataTable.Title>
-          <DataTable.Title>Email</DataTable.Title>
-          <DataTable.Title>Active</DataTable.Title>
-        </DataTable.Header>
-        {renderItem}
-        <DataTable.Pagination
-          page={page}
-          numberOfPages={3}
-          onPageChange={page => setPage(page)}
-          label="1-2 of 6"
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-          showFastPagination
-          optionsLabel={'Rows per page'}
-        />
-      </DataTable> */}
+      <FlatList
+        data={clients}
+        renderItem={renderItem}
+        // keyExtractor={(item) => item.id}
+      />
+      <Button icon="logout" mode="contained" onPress={() => logoutUser()}>
+        Logout
+      </Button>
     </View>
   );
 };

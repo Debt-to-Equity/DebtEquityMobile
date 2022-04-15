@@ -1,30 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { View, ScrollView, FlatList } from "react-native";
 import { TextInput, Text, Button, Title } from "react-native-paper";
-import { insertBudget } from "../../../api/insertBudget";
-import { BrightText } from "../../../components/Texts";
-import { useWizard } from "../../../hooks/useWizard";
-import { IUser, IWizardObj, IDebt } from "../../../types";
-import { expenses } from "../data";
-import AddNew from "./AddNew";
-import ExpenseDisplay from "./ExpenseDisplay";
+import { insertBudget } from "../../api/insertBudget";
+import { BrightText } from "../../components/Texts";
+import { useWizard } from "../../hooks/useWizard";
+import { IUser, IWizardObj, IDebt } from "../../types";
+import { expenses } from "../Wizard/data";
+import AddNew from "../Wizard/components/AddNew";
+import ExpenseDisplay from "../Wizard/components/ExpenseDisplay";
+import { useArrayForm } from "../../hooks/useArrayForm";
 
-interface ExpensesProps {
-  onSubmit: any;
-  user: IUser;
-  debts: IDebt[];
+interface BudgetProps {
+  route: any;
+  navigation: any;
 }
 
-const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
+const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
   const [showNewValue, setShowNewValue] = useState(false);
   const [newValue, setNewValue] = useState({ name: "", amount: "" });
   const [sliceValues, setSliceValues] = useState({ value1: 0, value2: 3 });
 
-  const [values, handleChange, addNewValue, editMultipleValues, isValid] =
-    useWizard(expenses);
+  console.log(route.params);
+
+  const debts = route.params.debts.debts;
+
+  const nextRoute = route.params.nextRoute;
+
+  const client = route.params.client;
+
+  const [budget, editBudget, isValid] = useArrayForm(expenses);
 
   const totalValue = () => {
-    return values.reduce((acc: number, ele: IWizardObj) => {
+    return budget.reduce((acc: number, ele: IWizardObj) => {
       let num = parseInt(ele.amount);
 
       if (Number.isNaN(num)) {
@@ -35,8 +42,8 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
   };
 
   const handleSubmit = async () => {
-    await insertBudget(values, user.id);
-    onSubmit();
+    await insertBudget(budget, client.id);
+    navigation.navigate(nextRoute, client);
   };
 
   const renderExpense = ({ item, index }: any) => {
@@ -45,11 +52,11 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
         expense={item}
         id={item.id}
         debt={debts}
-        handleTextChange={handleChange}
+        handleTextChange={editBudget}
         name={item.name}
         value={item.value}
         index={index}
-        editMultipleValues={editMultipleValues}
+        editMultipleValues={editBudget}
       />
     );
   };
@@ -59,17 +66,17 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
       <View
         style={{ paddingTop: 50, paddingHorizontal: 20, paddingBottom: 30 }}
       >
-        <View style={{ height: "75%" }}>
-          <Title style={{ alignSelf: "center" }}>Expenses</Title>
+        <View style={{ maxHeight: "75%" }}>
+          <Title style={{ alignSelf: "center" }}>Budget</Title>
           <FlatList
-            data={values.slice(sliceValues.value1, sliceValues.value2)}
+            data={budget.slice(sliceValues.value1, sliceValues.value2)}
             scrollEnabled={false}
             renderItem={renderExpense}
           />
         </View>
         <View>
           <Text style={{ fontSize: 23, marginBottom: 10, marginTop: -25 }}>
-            Total Monthly Expenses: {totalValue() ?? 0}
+            Total Monthly Budget: {totalValue() ?? 0}
           </Text>
 
           <View
@@ -92,7 +99,7 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
               <View />
             )}
 
-            {sliceValues.value2 <= values.length && (
+            {sliceValues.value2 <= budget.length && (
               <Button
                 contentStyle={{ flexDirection: "row-reverse" }}
                 icon="chevron-right"
@@ -108,7 +115,7 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
             )}
           </View>
 
-          {showNewValue ? (
+          {/* {showNewValue ? (
             <AddNew
               onCancel={() => {
                 setShowNewValue(false);
@@ -138,7 +145,7 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
                 Add Expense
               </Button>
             )
-          )}
+          )} */}
           <Button
             style={{ marginTop: 10 }}
             disabled={false}
@@ -153,4 +160,4 @@ const Expenses: React.FC<ExpensesProps> = ({ onSubmit, user, debts }) => {
   );
 };
 
-export default Expenses;
+export default InsertBudget;

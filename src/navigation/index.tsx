@@ -26,7 +26,11 @@ import Login from "../views/Login";
 import Register from "../views/Register";
 import { useUser } from "../hooks/useUser";
 import { UserContext } from "../context/UserContext";
+<<<<<<< HEAD
 import insertDebt from "../views/InsertDebt";
+=======
+import InsertBudget from "../views/InsertBudget/InsertBudget";
+>>>>>>> 0190153849d494368fd9bc2d84c423ce1cbc0011
 
 export default function Navigation({
   colorScheme,
@@ -90,6 +94,11 @@ function AgentNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Client"
+        component={CustomerDashboard}
+        // options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
@@ -97,8 +106,14 @@ function AgentNavigator() {
       <Stack.Screen
         name="Wizard"
         component={Wizard}
-        // options={{ headerShown: false }}
+        options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="InsertBudget"
+        component={InsertBudget}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
