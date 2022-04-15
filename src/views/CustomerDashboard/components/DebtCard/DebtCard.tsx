@@ -28,14 +28,12 @@ const DebtCard: React.FC<DebtCardProps> = ({ debts, onInsertPress }) => {
       </View>
       <Button onPress={onInsertPress}>Insert a Debt Payment</Button>
       <TouchableOpacity
-      // onPress={() =>
-      //   navigation.navigate("TransactionView", {
-      //     transactions: combineCategoryAndActual(debtCategories, debts),
-      //   })
-      // }
+        onPress={() => navigation.navigate("DebtsDisplay", { debts })}
       >
         <BrightText>Total Debt</BrightText>
-        {debts ? <ProgressBar data={[debts.totalDebt]} keys={keys} /> : null}
+        {debts?.debts?.length > 0 ? (
+          <ProgressBar data={[debts.totalDebt]} keys={keys} />
+        ) : null}
       </TouchableOpacity>
     </Card>
   );
@@ -45,14 +43,14 @@ export default DebtCard;
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 25
+    fontSize: 25,
   },
   headerContainer: {
     alignItems: "center",
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   card: {
     padding: 10,
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });

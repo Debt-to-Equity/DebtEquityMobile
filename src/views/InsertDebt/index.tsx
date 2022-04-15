@@ -1,12 +1,12 @@
 import React from "react";
 import { View } from "../../../components/Themed";
 
-interface Iprops {
+interface IProps {
   navigation: any;
 }
 
-const insertDebt: React.FC<Iprops> = ({ navigation }) => {
+const InsertDebt: React.FC<IProps> = ({ navigation }) => {
   return <View></View>;
 };
 
-export default insertDebt;
+export default InsertDebt;

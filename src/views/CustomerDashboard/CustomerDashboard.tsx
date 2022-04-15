@@ -2,14 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import { BrightText } from "../../components/Texts";
 import YearsDisplay from "../../components/YearsDisplay";
-import CashFlowContainer from "./components/CashFlowContainer";
 import { getTime, itemTotal } from "../../functions/counting";
-import ItemCard from "./components/ItemCard";
 import DebtCard from "./components/DebtCard/DebtCard";
 import InsertModal from "../../components/Modals/components/InsertModal";
 import { useInsertModal } from "../../hooks/useInsertModal";
 import { IBudget, IDebts } from "../../types";
-import { getUserDebts } from "../../api/getUserDebt";
+import { getUserDebts } from "../../api/getUserDebts";
 import { UserContext } from "../../context/UserContext";
 import { Button } from "react-native-paper";
 import { getUserBudget } from "../../api/getUserBudget";
@@ -22,21 +20,21 @@ const Dashboard = ({ navigation, route }) => {
     showInsertModal,
     insertHeader,
     insertCategories,
-    setIsInsertModalVisible
+    setIsInsertModalVisible,
   } = useInsertModal();
   const [debtCategories, setDebtCategories] = useState([
     {
       name: "Credit Card",
       isEditable: false,
-      id: 1
+      id: 1,
     },
     {
       name: "Mortgage",
       isEditable: false,
-      id: 2
-    }
+      id: 2,
+    },
   ]);
-  const [debt, setDebt] = useState<IDebts[]>();
+  const [debt, setDebt] = useState<IDebts[]>([]);
   const [budget, setBudget] = useState<IBudget[] | string>("No Budget Set");
 
   useEffect(() => {
@@ -52,9 +50,6 @@ const Dashboard = ({ navigation, route }) => {
     setDebt(data);
   };
 
-<<<<<<< HEAD
-  console.log("customerDashboard", debt);
-=======
   const getBudget = async () => {
     let id = route.params?.client?.id ?? user.id;
     let budget = await getUserBudget(id);
@@ -62,7 +57,6 @@ const Dashboard = ({ navigation, route }) => {
     setBudget(budget);
   };
 
->>>>>>> 0190153849d494368fd9bc2d84c423ce1cbc0011
   return (
     <ScrollView style={{ padding: 10 }}>
       <InsertModal
