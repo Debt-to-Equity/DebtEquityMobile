@@ -18,19 +18,19 @@ const Dashboard = ({ navigation }) => {
     showInsertModal,
     insertHeader,
     insertCategories,
-    setIsInsertModalVisible,
+    setIsInsertModalVisible
   } = useInsertModal();
   const [debtCategories, setDebtCategories] = useState([
     {
       name: "Credit Card",
       isEditable: false,
-      id: 1,
+      id: 1
     },
     {
       name: "Mortgage",
       isEditable: false,
-      id: 2,
-    },
+      id: 2
+    }
   ]);
   const [debt, setDebt] = useState<IDebts>();
 
@@ -44,6 +44,7 @@ const Dashboard = ({ navigation }) => {
     setDebt(data);
   };
 
+  console.log("customerDashboard", debt);
   return (
     <ScrollView style={{ padding: 10 }}>
       <InsertModal
@@ -77,7 +78,6 @@ const Dashboard = ({ navigation }) => {
           setIsInsertModalVisible(true, "Debt Payment", debt)
         }
         debts={debt}
-        debtCategories={debtCategories}
       />
       {/* <ItemCard
         navigation={navigation}

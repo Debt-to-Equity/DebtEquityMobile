@@ -26,6 +26,7 @@ import Login from "../views/Login";
 import Register from "../views/Register";
 import { useUser } from "../hooks/useUser";
 import { UserContext } from "../context/UserContext";
+import insertDebt from "../views/InsertDebt";
 
 export default function Navigation({
   colorScheme,
@@ -118,6 +119,9 @@ function ClientNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
+      <Stack.Screen
+        name="insertDebt"
+        component={insertDebt}
       {/* <Stack.Screen
         name=""
         component={Register}

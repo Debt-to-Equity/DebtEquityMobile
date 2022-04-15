@@ -16,15 +16,7 @@ interface DebtCardProps {
   onInsertPress: any;
 }
 
-const data = [
-  {
-    month: new Date(2015, 0, 1),
-    paidOffDebt: 100000,
-    remainingDebt: 200000,
-  },
-];
-
-const keys = ["paidOffDebt", "remainingDebt"];
+const keys = ["startingAmount", "amountRemaining"];
 
 const DebtCard: React.FC<DebtCardProps> = ({ debts, onInsertPress }) => {
   const navigation = useNavigation();
@@ -43,7 +35,7 @@ const DebtCard: React.FC<DebtCardProps> = ({ debts, onInsertPress }) => {
       // }
       >
         <BrightText>Total Debt</BrightText>
-        <ProgressBar data={data} keys={keys} />
+        {debts ? <ProgressBar data={[debts.totalDebt]} keys={keys} /> : null}
       </TouchableOpacity>
     </Card>
   );
@@ -53,14 +45,14 @@ export default DebtCard;
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 25,
+    fontSize: 25
   },
   headerContainer: {
     alignItems: "center",
-    paddingBottom: 5,
+    paddingBottom: 5
   },
   card: {
     padding: 10,
-    marginBottom: 20,
-  },
+    marginBottom: 20
+  }
 });

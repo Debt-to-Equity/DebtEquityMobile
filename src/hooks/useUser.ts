@@ -11,7 +11,7 @@ export const useUser = () => {
     email: "",
     loggedIn: false,
     userType: "",
-    parentId: "",
+    parentId: ""
   });
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const useUser = () => {
         email: "",
         loggedIn: false,
         userType: "",
-        parentId: "",
+        parentId: ""
       });
     } catch (e) {
       // saving error
