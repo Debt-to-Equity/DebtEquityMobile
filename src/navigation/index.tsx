@@ -26,6 +26,7 @@ import Login from "../views/Login";
 import Register from "../views/Register";
 import { useUser } from "../hooks/useUser";
 import { UserContext } from "../context/UserContext";
+import InsertBudget from "../views/InsertBudget/InsertBudget";
 
 export default function Navigation({
   colorScheme,
@@ -103,6 +104,12 @@ function AgentNavigator() {
         component={Wizard}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="InsertBudget"
+        component={InsertBudget}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>

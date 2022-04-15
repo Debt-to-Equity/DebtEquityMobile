@@ -41,6 +41,19 @@ export interface IDebt {
   updatedAt: Date;
 }
 
+export interface IBudget {
+  id: string;
+  name: string;
+  amount: number;
+  debtId: string | undefined;
+  amortized: boolean;
+  yearsLeft: number | undefined;
+  startingYears: number | undefined;
+  interestRate: number | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface IDebts {
   userId: string;
   totalDebt: ITotalDebt;
@@ -53,7 +66,7 @@ export interface IWizardObj {
   amount: string;
 }
 
-export interface IExpenseI {}
+export interface IExpense {}
 
 export interface IIcons {
   iconType:
