@@ -16,15 +16,7 @@ interface DebtCardProps {
   onInsertPress: any;
 }
 
-const data = [
-  {
-    month: new Date(2015, 0, 1),
-    paidOffDebt: 100000,
-    remainingDebt: 200000,
-  },
-];
-
-const keys = ["paidOffDebt", "remainingDebt"];
+const keys = ["startingAmount", "amountRemaining"];
 
 const DebtCard: React.FC<DebtCardProps> = ({ debts, onInsertPress }) => {
   const navigation = useNavigation();
@@ -36,14 +28,12 @@ const DebtCard: React.FC<DebtCardProps> = ({ debts, onInsertPress }) => {
       </View>
       <Button onPress={onInsertPress}>Insert a Debt Payment</Button>
       <TouchableOpacity
-      // onPress={() =>
-      //   navigation.navigate("TransactionView", {
-      //     transactions: combineCategoryAndActual(debtCategories, debts),
-      //   })
-      // }
+        onPress={() => navigation.navigate("DebtsDisplay", { debts })}
       >
         <BrightText>Total Debt</BrightText>
-        <ProgressBar data={data} keys={keys} />
+        {debts?.debts?.length > 0 ? (
+          <ProgressBar data={[debts.totalDebt]} keys={keys} />
+        ) : null}
       </TouchableOpacity>
     </Card>
   );
