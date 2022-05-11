@@ -17,7 +17,7 @@ const ProgressBar: React.FC<Props> = ({ data, keys }) => {
   //   }
   // ];
 
-  const colors = ["#7b4173", "#a55194"];
+  const colors = ["#228B22", "grey"];
   // const keys = ["paidOffDebt", "remainingDebt"];
 
   return (
