@@ -26,7 +26,9 @@ import Login from "../views/Login";
 import Register from "../views/Register";
 import { useUser } from "../hooks/useUser";
 import { UserContext } from "../context/UserContext";
+import InsertDebt from "../views/InsertDebt";
 import InsertBudget from "../views/InsertBudget/InsertBudget";
+import DebtsDisplay from "../views/DebtsDisplay/DebtsDisplay";
 
 export default function Navigation({
   colorScheme,
@@ -109,6 +111,11 @@ function AgentNavigator() {
         component={InsertBudget}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="DebtsDisplay"
+        component={DebtsDisplay}
+        options={{ title: "Debts" }}
+      />
 
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -130,6 +137,8 @@ function ClientNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
+      <Stack.Screen name="InsertDebt" component={InsertDebt} />
+      <Stack.Screen name="DebtsDisplay" component={DebtsDisplay} />
       {/* <Stack.Screen
         name=""
         component={Register}

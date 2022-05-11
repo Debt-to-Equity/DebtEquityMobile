@@ -2,14 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, ScrollView } from "react-native";
 import { BrightText } from "../../components/Texts";
 import YearsDisplay from "../../components/YearsDisplay";
-import CashFlowContainer from "./components/CashFlowContainer";
 import { getTime, itemTotal } from "../../functions/counting";
-import ItemCard from "./components/ItemCard";
 import DebtCard from "./components/DebtCard/DebtCard";
 import InsertModal from "../../components/Modals/components/InsertModal";
 import { useInsertModal } from "../../hooks/useInsertModal";
 import { IBudget, IDebts } from "../../types";
-import { getUserDebts } from "../../api/getUserDebt";
+import { getUserDebts } from "../../api/getUserDebts";
 import { UserContext } from "../../context/UserContext";
 import { Button } from "react-native-paper";
 import { getUserBudget } from "../../api/getUserBudget";
@@ -36,7 +34,7 @@ const Dashboard = ({ navigation, route }) => {
       id: 2,
     },
   ]);
-  const [debt, setDebt] = useState<IDebts[]>();
+  const [debt, setDebt] = useState<IDebts[]>([]);
   const [budget, setBudget] = useState<IBudget[] | string>("No Budget Set");
 
   useEffect(() => {
@@ -72,7 +70,6 @@ const Dashboard = ({ navigation, route }) => {
           setIsInsertModalVisible(true, "Debt Payment", debt)
         }
         debts={debt}
-        debtCategories={debtCategories}
       />
       <BudgetCard
         budget={budget}
