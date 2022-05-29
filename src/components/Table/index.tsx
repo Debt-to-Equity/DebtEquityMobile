@@ -1,8 +1,8 @@
-import React from 'react';
-import {SectionList, RefreshControl} from 'react-native';
+import React from "react";
+import { SectionList, RefreshControl } from "react-native";
 
-import TableRow from './components/TableRow';
-import Header from './components/Header';
+import TableRow from "./components/TableRow";
+import Header from "./components/Header";
 
 interface IProps {
   data: any;
@@ -12,7 +12,6 @@ interface IProps {
 }
 
 const Table = (props: IProps) => {
-  console.log(props.data);
   return (
     <SectionList
       refreshControl={
@@ -24,7 +23,7 @@ const Table = (props: IProps) => {
       showsVerticalScrollIndicator={false}
       sections={props.data}
       keyExtractor={(item, index) => item + index}
-      renderItem={({item, index, section}) => (
+      renderItem={({ item, index, section }) => (
         <TableRow
           onPress={props.onPress}
           text={item.text}
@@ -32,7 +31,9 @@ const Table = (props: IProps) => {
           data={item.data}
         />
       )}
-      renderSectionHeader={({section: {title}}) => <Header header={title} />}
+      renderSectionHeader={({ section: { title } }) => (
+        <Header header={title} />
+      )}
     />
   );
 };

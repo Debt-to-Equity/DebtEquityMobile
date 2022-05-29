@@ -35,7 +35,7 @@ const AgentDashboard = ({ navigation }: any) => {
       <Button
         icon="account-plus"
         mode="contained"
-        onPress={() => navigation.push("Wizard")}
+        onPress={() => navigation.push("CreateUser")}
       >
         Add Customer
       </Button>

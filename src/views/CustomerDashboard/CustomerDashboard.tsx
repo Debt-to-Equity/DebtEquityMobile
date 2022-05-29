@@ -11,10 +11,19 @@ import { getUserDebts } from "../../api/getUserDebts";
 import { UserContext } from "../../context/UserContext";
 import { Button } from "react-native-paper";
 import { getUserBudget } from "../../api/getUserBudget";
+import { getUserRevenue } from "../../api/getUserRevenue";
 import BudgetCard from "./components/BudgetCard/BudgetCard";
+import RevenueCard from "./components/RevenueCard/RevenueCard";
+import PayoffScheduleCard from "./components/payoff-schedule-card/PayoffScheduleCard";
 
-const Dashboard = ({ navigation, route }) => {
+interface Props {
+  navigation: any;
+  route: any;
+}
+
+const Dashboard: React.FC<Props> = ({ navigation, route }) => {
   const { user, logoutUser } = useContext(UserContext);
+  const id = route.params?.client?.id ?? user.id;
 
   const {
     showInsertModal,
@@ -22,39 +31,32 @@ const Dashboard = ({ navigation, route }) => {
     insertCategories,
     setIsInsertModalVisible,
   } = useInsertModal();
-  const [debtCategories, setDebtCategories] = useState([
-    {
-      name: "Credit Card",
-      isEditable: false,
-      id: 1,
-    },
-    {
-      name: "Mortgage",
-      isEditable: false,
-      id: 2,
-    },
-  ]);
-  const [debt, setDebt] = useState<IDebts[]>([]);
+
+  const [debt, setDebt] = useState<IDebts>();
   const [budget, setBudget] = useState<IBudget[] | string>("No Budget Set");
+  const [revenue, setRevenue] = useState<any[] | string>("No Revenue Set");
 
   useEffect(() => {
     getDebts();
     getBudget();
+    getRevenue();
   }, []);
 
   let isAgent = typeof route.params?.client !== "undefined";
 
   const getDebts = async () => {
-    let id = route.params?.client?.id ?? user.id;
     let data = await getUserDebts(id);
     setDebt(data);
   };
 
   const getBudget = async () => {
-    let id = route.params?.client?.id ?? user.id;
     let budget = await getUserBudget(id);
-    console.log(budget);
     setBudget(budget);
+  };
+
+  const getRevenue = async () => {
+    let revenue = await getUserRevenue(id);
+    setRevenue(revenue);
   };
 
   return (
@@ -65,18 +67,16 @@ const Dashboard = ({ navigation, route }) => {
         onPress={() => {}}
         onClose={() => setIsInsertModalVisible(false)}
       />
-      <DebtCard
-        onInsertPress={() =>
-          setIsInsertModalVisible(true, "Debt Payment", debt)
-        }
-        debts={debt}
-      />
-      <BudgetCard
-        budget={budget}
-        userId={route.params?.client?.id}
-        debts={debt}
-        client={route.params?.client}
-      />
+      <PayoffScheduleCard />
+      <DebtCard client={route.params?.client} debts={debt} />
+      {typeof debt !== "string" && (
+        <BudgetCard
+          budget={budget}
+          debts={debt}
+          client={route.params?.client}
+        />
+      )}
+      <RevenueCard revenue={revenue} />
 
       {!isAgent && (
         <Button icon="logout" mode="contained" onPress={() => logoutUser()}>

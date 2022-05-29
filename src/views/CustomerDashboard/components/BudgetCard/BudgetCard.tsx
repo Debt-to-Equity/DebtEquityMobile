@@ -7,11 +7,10 @@ import { IBudget, IDebts, IUser } from "../../../../types";
 interface Props {
   budget: IBudget[] | string;
   client?: IUser;
-  debts?: IDebts[];
+  debts?: IDebts;
 }
 
 const BudgetCard: React.FC<Props> = ({ budget, debts, client }) => {
-  console.log(client);
   const navigation = useNavigation();
   return (
     <Card style={styles.card}>
@@ -23,7 +22,7 @@ const BudgetCard: React.FC<Props> = ({ budget, debts, client }) => {
               navigation.navigate("InsertBudget", {
                 client,
                 debts,
-                nextRoute: "Client",
+                nextRoute: true,
               })
             }
           >

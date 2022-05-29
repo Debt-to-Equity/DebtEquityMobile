@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, FlatList } from "react-native";
-import { TextInput, Text, Button, Title } from "react-native-paper";
+import { View, FlatList } from "react-native";
+import { Text, Button, Title } from "react-native-paper";
 import { insertBudget } from "../../api/insertBudget";
-import { BrightText } from "../../components/Texts";
-import { useWizard } from "../../hooks/useWizard";
-import { IUser, IWizardObj, IDebt } from "../../types";
+import { IWizardObj } from "../../types";
 import { expenses } from "../Wizard/data";
 import AddNew from "../Wizard/components/AddNew";
 import ExpenseDisplay from "../Wizard/components/ExpenseDisplay";
 import { useArrayForm } from "../../hooks/useArrayForm";
+import { StackActions } from "@react-navigation/native";
+import { useWizard } from "../../hooks/useWizard";
 
 interface BudgetProps {
   route: any;
@@ -20,18 +20,16 @@ const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
   const [newValue, setNewValue] = useState({ name: "", amount: "" });
   const [sliceValues, setSliceValues] = useState({ value1: 0, value2: 3 });
 
-  console.log(route.params);
-
   const debts = route.params.debts.debts;
 
   const nextRoute = route.params.nextRoute;
 
   const client = route.params.client;
 
-  const [budget, editBudget, isValid] = useArrayForm(expenses);
-
+  const [budget, editBudget, addNewValue, editMultipleValues, isValid] =
+    useWizard(expenses);
   const totalValue = () => {
-    return budget.reduce((acc: number, ele: IWizardObj) => {
+    const number = budget.reduce((acc: number, ele: IWizardObj) => {
       let num = parseInt(ele.amount);
 
       if (Number.isNaN(num)) {
@@ -39,11 +37,19 @@ const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
       }
       return (acc += num);
     }, 0);
+    return number;
   };
 
   const handleSubmit = async () => {
     await insertBudget(budget, client.id);
-    navigation.navigate(nextRoute, client);
+    if (nextRoute) {
+      return navigation.dispatch(
+        StackActions.replace(nextRoute, {
+          client,
+        })
+      );
+    }
+    return navigation.goBack();
   };
 
   const renderExpense = ({ item, index }: any) => {
@@ -63,11 +69,8 @@ const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
 
   return (
     <View style={{ height: "100%" }}>
-      <View
-        style={{ paddingTop: 50, paddingHorizontal: 20, paddingBottom: 30 }}
-      >
-        <View style={{ maxHeight: "75%" }}>
-          <Title style={{ alignSelf: "center" }}>Budget</Title>
+      <View style={{ paddingHorizontal: 20 }}>
+        <View style={{ height: "70%" }}>
           <FlatList
             data={budget.slice(sliceValues.value1, sliceValues.value2)}
             scrollEnabled={false}
@@ -99,7 +102,7 @@ const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
               <View />
             )}
 
-            {sliceValues.value2 <= budget.length && (
+            {sliceValues.value2 <= budget.length ? (
               <Button
                 contentStyle={{ flexDirection: "row-reverse" }}
                 icon="chevron-right"
@@ -111,6 +114,14 @@ const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
                 }
               >
                 Next
+              </Button>
+            ) : (
+              <Button
+                disabled={false}
+                loading={false}
+                onPress={() => setShowNewValue(true)}
+              >
+                Add Expense
               </Button>
             )}
           </View>

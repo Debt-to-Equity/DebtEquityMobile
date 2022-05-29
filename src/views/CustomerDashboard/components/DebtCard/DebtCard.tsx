@@ -1,40 +1,70 @@
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-// import {Button} from '../../../../components/Buttons';
-import { Button } from "react-native-paper";
-
-import Card from "../../../../components/Card";
-import LineGraph from "../../../../components/LineGraph";
+import { Button, Text, Card } from "react-native-paper";
 import ProgressBar from "../../../../components/ProgressBar";
 import { BrightText } from "../../../../components/Texts";
-import { combineCategoryAndActual } from "../../../../functions/combine";
-import { IDebt, IDebtCategory, IDebts } from "../../../../types";
+import { IDebts, IUser } from "../../../../types";
 
 interface DebtCardProps {
-  debts: IDebts;
-  onInsertPress: any;
+  debts?: IDebts;
+  client?: IUser;
 }
 
-const keys = ["startingAmount", "amountRemaining"];
+const keys = ["amountPaid", "startingAmount"];
 
-const DebtCard: React.FC<DebtCardProps> = ({ debts, onInsertPress }) => {
+const DebtCard: React.FC<DebtCardProps> = ({ debts, client }) => {
   const navigation = useNavigation();
+  const debtBarData = {
+    amountPaid:
+      (debts?.totalDebt?.startingAmount ?? 0) -
+      (debts?.totalDebt?.amountRemaining ?? 0),
+    startingAmount: debts?.totalDebt?.startingAmount ?? 0,
+  };
+
+  const activeDebts = !(
+    typeof debts === "undefined" || typeof debts === "string"
+  );
 
   return (
-    <Card style={styles.card}>
+    <Card
+      style={styles.card}
+      onPress={
+        activeDebts
+          ? () => navigation.navigate("DebtsDisplay", { debts })
+          : null
+      }
+    >
       <View style={styles.headerContainer}>
         <BrightText style={styles.header}>Debt</BrightText>
       </View>
-      <Button onPress={onInsertPress}>Insert a Debt Payment</Button>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("DebtsDisplay", { debts })}
-      >
-        <BrightText>Total Debt</BrightText>
-        {debts?.debts?.length > 0 ? (
-          <ProgressBar data={[debts.totalDebt]} keys={keys} />
-        ) : null}
-      </TouchableOpacity>
+      {!activeDebts ? (
+        <View>
+          <Text>No Debts</Text>
+          <Button
+            onPress={() =>
+              navigation.navigate("InsertDebt", {
+                client,
+                debts,
+              })
+            }
+          >
+            Add Debts
+          </Button>
+        </View>
+      ) : (
+        <>
+          {/* <Button onPress={onInsertPress}>Insert a Debt Payment</Button> */}
+          {/* <TouchableOpacity
+            onPress={() => navigation.navigate("DebtsDisplay", { debts })}
+          > */}
+          <BrightText>Total Debt</BrightText>
+          {debts?.debts?.length > 0 ? (
+            <ProgressBar data={[debtBarData]} keys={keys} />
+          ) : null}
+          {/* </TouchableOpacity> */}
+        </>
+      )}
     </Card>
   );
 };

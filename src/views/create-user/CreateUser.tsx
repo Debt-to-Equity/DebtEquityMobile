@@ -1,17 +1,19 @@
 import React, { useContext, useState } from "react";
 import { Alert, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
-import { registerUser } from "../../../api/registerUser";
-import { UserContext } from "../../../context/UserContext";
-import { useError } from "../../../hooks/useError";
-import { useForm } from "../../../hooks/useForm";
+import { registerUser } from "../../api/registerUser";
+import { UserContext } from "../../context/UserContext";
+import { useError } from "../../hooks/useError";
+import { useForm } from "../../hooks/useForm";
+import { StackActions, useNavigation } from "@react-navigation/native";
 
 interface UserInfoProps {
   onRegistration: any;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ onRegistration }) => {
+const CreateUser: React.FC<UserInfoProps> = ({ onRegistration }) => {
   const { user } = useContext(UserContext);
+  const navigation = useNavigation();
   const [form, handleFormUpdate, _, isValid] = useForm({
     email: "",
     firstName: "",
@@ -36,7 +38,12 @@ const UserInfo: React.FC<UserInfoProps> = ({ onRegistration }) => {
           setErrorMessage(res.message);
         } else {
           setLoading(false);
-          onRegistration(res);
+          navigation.dispatch(
+            StackActions.replace("InsertDebt", {
+              client: res,
+              nextRoute: true,
+            })
+          );
         }
       })
       .catch((err) => Alert.alert("Could not register user"));
@@ -110,4 +117,4 @@ const UserInfo: React.FC<UserInfoProps> = ({ onRegistration }) => {
   );
 };
 
-export default UserInfo;
+export default CreateUser;

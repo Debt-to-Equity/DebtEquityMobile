@@ -1,12 +1,11 @@
-import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import {DataTable} from 'react-native-paper';
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { DataTable } from "react-native-paper";
 
-const TransactionView = ({route}) => {
-  console.log(route.params);
-  const {transactions} = route.params;
+const TransactionView = ({ route }) => {
+  const { transactions } = route.params;
 
-  const renderItem = transactions.map(item => {
+  const renderItem = transactions.map((item) => {
     return (
       <TouchableOpacity onPress={() => {}}>
         <DataTable.Row>

@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View } from "react-native";
-import { useWizard } from "../../../hooks/useWizard";
-import { IUser, IWizardObj } from "../../../types";
-import AddNew from "./AddNew";
-import { TextInput, Button, Text, Title } from "react-native-paper";
-import { insertMultipleRevenue } from "../../../api/insertMultipleRevenue";
 
-interface RevenueProps {
-  onSubmit: any;
-  user: IUser;
+import { TextInput, Button, Text, Title } from "react-native-paper";
+
+import { insertMultipleRevenue } from "../../api/insertMultipleRevenue";
+import { StackActions, useNavigation } from "@react-navigation/native";
+import { useWizard } from "../../hooks/useWizard";
+import { IWizardObj } from "../../types";
+
+interface Props {
+  route: any;
 }
 
-const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
+const InsertRevenue: React.FC<Props> = ({ route }) => {
+  const navigation = useNavigation();
   const [showNewValue, setShowNewValue] = useState(false);
   const [newValue, setNewValue] = useState({ name: "", amount: "" });
   const [values, handleChange, addNewValue, _, isValid] = useWizard([
@@ -22,6 +24,12 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
       revenue: true,
     },
   ]);
+
+  const nextRoute = route.params.nextRoute;
+
+  const client = route.params.client;
+
+  const debts = route.params.debts;
 
   const renderItem = () => {
     return values.map((ele: IWizardObj, indx: number) => {
@@ -48,8 +56,17 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
   };
 
   const handleSubmit = async () => {
-    let stuff = await insertMultipleRevenue(values, user.id);
-    onSubmit();
+    await insertMultipleRevenue(values, client.id);
+    if (nextRoute) {
+      return navigation.dispatch(
+        StackActions.replace("InsertBudget", {
+          debts,
+          client,
+          nextRoute: true,
+        })
+      );
+    }
+    return navigation.goBack();
   };
 
   return (
@@ -60,7 +77,7 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
         Total Monthly Income: {totalValue() ? totalValue() : 0}
       </Text>
 
-      {showNewValue ? (
+      {/* {showNewValue ? (
         <AddNew
           onCancel={() => {
             setShowNewValue(false);
@@ -88,7 +105,7 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
         >
           Add Revenue
         </Button>
-      )}
+      )} */}
       <Button
         style={{ marginTop: 25 }}
         mode="contained"
@@ -101,4 +118,4 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
   );
 };
 
-export default Revenue;
+export default InsertRevenue;

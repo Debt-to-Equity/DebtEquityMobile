@@ -1,32 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
-import { useWizard } from "../../../hooks/useWizard";
-import { IUser, IWizardObj } from "../../../types";
-import AddNew from "./AddNew";
+import { useWizard } from "../../hooks/useWizard";
+import { IUser, IWizardObj } from "../../types";
 import { TextInput, Button, Text, Title } from "react-native-paper";
-import { insertMultipleRevenue } from "../../../api/insertMultipleRevenue";
+import { insertMultipleDebts } from "../../api/insertMultipleDebts";
+import { StackActions, useNavigation } from "@react-navigation/native";
 
-interface RevenueProps {
-  onSubmit: any;
-  user: IUser;
+interface DebtProps {
+  route: any;
 }
 
-const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
+const InsertDebt: React.FC<DebtProps> = ({ route }) => {
+  const navigation = useNavigation();
   const [showNewValue, setShowNewValue] = useState(false);
   const [newValue, setNewValue] = useState({ name: "", amount: "" });
   const [values, handleChange, addNewValue, _, isValid] = useWizard([
     {
       id: 1,
-      name: "Net Monthly Income",
+      name: "First Mortgage",
       amount: "",
-      revenue: true,
+    },
+    {
+      id: 2,
+      name: "Second Mortgage",
+      amount: "",
+    },
+    {
+      id: 3,
+      name: "Credit Card",
+      amount: "",
     },
   ]);
+
+  const nextRoute = route.params.nextRoute;
+
+  const client = route.params.client;
 
   const renderItem = () => {
     return values.map((ele: IWizardObj, indx: number) => {
       return (
         <TextInput
+          key={indx}
+          keyboardType="number-pad"
           mode="outlined"
           onChangeText={(text) => handleChange(text, ele.id)}
           label={ele.name}
@@ -48,34 +63,43 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
   };
 
   const handleSubmit = async () => {
-    let stuff = await insertMultipleRevenue(values, user.id);
-    onSubmit();
+    const debts = await insertMultipleDebts(values, client.id);
+    if (nextRoute) {
+      return navigation.dispatch(
+        StackActions.replace("InsertRevenue", {
+          client,
+          debts,
+          nextRoute: true,
+        })
+      );
+    }
+    return navigation.goBack();
   };
 
   return (
     <View style={{ paddingTop: 50, paddingHorizontal: 20 }}>
-      <Title style={{ alignSelf: "center" }}>Expenses</Title>
+      <Title style={{ alignSelf: "center" }}>Debt</Title>
       {renderItem()}
       <Text style={{ fontSize: 23, marginTop: 10, marginBottom: 10 }}>
-        Total Monthly Income: {totalValue() ? totalValue() : 0}
+        Total Debt: {totalValue() ? totalValue() : 0}
       </Text>
 
-      {showNewValue ? (
+      {/* {showNewValue ? (
         <AddNew
           onCancel={() => {
             setShowNewValue(false);
-            setNewValue({ name: "", amount: "" });
+            setNewValue({name: '', amount: ''});
           }}
           addNewValue={() => {
             addNewValue(newValue.name, newValue.amount);
             setShowNewValue(false);
-            setNewValue({ name: "", amount: "" });
+            setNewValue({name: '', amount: ''});
           }}
           onChangeNameText={(text: string) =>
-            setNewValue({ ...newValue, name: text })
+            setNewValue({...newValue, name: text})
           }
           onChangeValueText={(text: string) =>
-            setNewValue({ ...newValue, amount: text })
+            setNewValue({...newValue, amount: text})
           }
           amount={newValue.amount}
           name={newValue.name}
@@ -84,11 +108,10 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
         <Button
           disabled={false}
           loading={false}
-          onPress={() => setShowNewValue(true)}
-        >
-          Add Revenue
+          onPress={() => setShowNewValue(true)}>
+          Add Debt
         </Button>
-      )}
+      )} */}
       <Button
         style={{ marginTop: 25 }}
         mode="contained"
@@ -101,4 +124,4 @@ const Revenue: React.FC<RevenueProps> = ({ onSubmit, user }) => {
   );
 };
 
-export default Revenue;
+export default InsertDebt;

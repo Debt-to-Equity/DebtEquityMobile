@@ -8,15 +8,13 @@ interface IProps {
   route: any;
 }
 
-const DebtsDisplay: React.FC<IProps> = ({ route }) => {
-  const debts = route.params.debts?.debts;
-  const totalDebt = route.params.debts?.totalDebt;
-
-  const renderItem = ({ item }: { item: IDebt }) => (
+const RevenueDisplay: React.FC<IProps> = ({ route }) => {
+  const revenue = route.params.revenue;
+  const renderItem = ({ item }: { item: any }) => (
     <Card style={{ marginBottom: 10 }}>
       <List.Item
         title={item.name}
-        description={`$${item.amountRemaining}`}
+        description={`$${item.amount}`}
         // right={(props) => (
         //   <TouchableOpacity>
         //     <List.Icon icon="delete" />
@@ -32,7 +30,7 @@ const DebtsDisplay: React.FC<IProps> = ({ route }) => {
   return (
     <View style={{ flex: 1, padding: 10 }}>
       <FlatList
-        data={debts}
+        data={revenue}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />
@@ -40,4 +38,4 @@ const DebtsDisplay: React.FC<IProps> = ({ route }) => {
   );
 };
 
-export default DebtsDisplay;
+export default RevenueDisplay;

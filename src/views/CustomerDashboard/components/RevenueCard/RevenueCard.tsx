@@ -5,34 +5,42 @@ import { Button, Card, Text } from "react-native-paper";
 import { IBudget, IDebts, IUser } from "../../../../types";
 
 interface Props {
-  budget: IBudget[] | string;
+  revenue: any;
   client?: IUser;
   debts?: IDebts[];
 }
 
-const RevenueCard: React.FC<Props> = ({ budget, debts, client }) => {
-  console.log(client);
+const RevenueCard: React.FC<Props> = ({ revenue, debts, client }) => {
   const navigation = useNavigation();
+  let availableRevenue = !(typeof revenue === "string");
+  let totalRevenue;
+
+  if (availableRevenue) {
+    totalRevenue = revenue.reduce((acc, curr) => {
+      return acc + curr.amount;
+    }, 0);
+  }
+
   return (
-    <Card style={styles.card}>
-      {typeof budget === "string" ? (
+    <Card
+      onPress={
+        availableRevenue
+          ? () => navigation.navigate("RevenueDisplay", { revenue })
+          : null
+      }
+      style={styles.card}
+    >
+      {!availableRevenue ? (
         <View>
-          <Text>No Budget Set</Text>
-          <Button
-            onPress={() =>
-              navigation.navigate("InsertBudget", {
-                client,
-                debts,
-                nextRoute: "Client",
-              })
-            }
-          >
-            Add a Budget
+          <Text>No Revenue Set</Text>
+          <Button onPress={() => navigation.navigate("InsertRevenue")}>
+            Add Revenue
           </Button>
         </View>
       ) : (
         <View>
-          <Text>BudgetCard</Text>
+          <Text>Revenue Card</Text>
+          <Text>Total Revenue: ${totalRevenue}</Text>
         </View>
       )}
     </Card>
