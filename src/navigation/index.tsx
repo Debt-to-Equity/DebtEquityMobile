@@ -11,8 +11,6 @@ import { ColorSchemeName, Pressable } from "react-native";
 
 import Colors from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
-import ModalScreen from "../../screens/ModalScreen";
-import NotFoundScreen from "../../screens/NotFoundScreen";
 import AgentDashboard from "../views/AgentDashboard/AgentDashboard";
 import CustomerDashboard from "../views/CustomerDashboard/CustomerDashboard";
 import {
@@ -70,18 +68,13 @@ function LoginNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
-      <Stack.Screen
         name="Register"
         component={Register}
         options={{ headerShown: false }}
       />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      {/* <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
+      </Stack.Group> */}
     </Stack.Navigator>
   );
 }
@@ -98,11 +91,6 @@ function AgentNavigator() {
         name="Client"
         component={CustomerDashboard}
         // options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
       />
       <Stack.Screen
         name="Wizard"
@@ -133,7 +121,7 @@ function AgentNavigator() {
       <Stack.Screen name="InsertRevenue" component={InsertRevenue} />
 
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        {/* <Stack.Screen name="Modal" component={ModalScreen} /> */}
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -147,11 +135,6 @@ function ClientNavigator() {
         component={ClientTabNavigator}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
       <Stack.Screen name="InsertDebt" component={InsertDebt} />
       <Stack.Screen name="DebtsDisplay" component={DebtsDisplay} />
       <Stack.Screen name="RevenueDisplay" component={RevenueDisplay} />
@@ -160,9 +143,9 @@ function ClientNavigator() {
         component={Register}
         options={{ headerShown: false }}
       /> */}
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      {/* <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
+      </Stack.Group> */}
     </Stack.Navigator>
   );
 }
