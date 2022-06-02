@@ -4,7 +4,7 @@ import { BrightText } from "../../components/Texts";
 import YearsDisplay from "../../components/YearsDisplay";
 import { getTime, itemTotal } from "../../functions/counting";
 import DebtCard from "./components/DebtCard/DebtCard";
-import InsertModal from "../../components/Modals/components/InsertModal";
+import InsertModal from "../../components/modals/components/InsertModal";
 import { useInsertModal } from "../../hooks/useInsertModal";
 import { IBudget, IDebts } from "../../types";
 import { getUserDebts } from "../../api/getUserDebts";
@@ -69,13 +69,14 @@ const Dashboard: React.FC<Props> = ({ navigation, route }) => {
       />
       <PayoffScheduleCard />
       <DebtCard client={route.params?.client} debts={debt} />
-      {typeof debt !== "string" && (
-        <BudgetCard
-          budget={budget}
-          debts={debt}
-          client={route.params?.client}
-        />
-      )}
+      {typeof debt !== "string" ||
+        (!debt && (
+          <BudgetCard
+            budget={budget}
+            debts={debt}
+            client={route.params?.client}
+          />
+        ))}
       <RevenueCard revenue={revenue} />
 
       {!isAgent && (

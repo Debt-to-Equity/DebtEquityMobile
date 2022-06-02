@@ -25,11 +25,12 @@ import Register from "../views/Register";
 import { useUser } from "../hooks/useUser";
 import { UserContext } from "../context/UserContext";
 import InsertDebt from "../views/insert-debt/InsertDebt";
-import InsertBudget from "../views/InsertBudget/InsertBudget";
+import InsertBudget from "../views/insert-budget/InsertBudget";
 import DebtsDisplay from "../views/DebtsDisplay/DebtsDisplay";
 import RevenueDisplay from "../views/revenue-display/RevenueDisplay";
 import InsertRevenue from "../views/insert-revenue/InsertRevenue";
 import CreateUser from "../views/create-user/CreateUser";
+import AddNewItem from "../components/modals/components/AddNewItem";
 
 export default function Navigation({
   colorScheme,
@@ -121,7 +122,7 @@ function AgentNavigator() {
       <Stack.Screen name="InsertRevenue" component={InsertRevenue} />
 
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        {/* <Stack.Screen name="Modal" component={ModalScreen} /> */}
+        <Stack.Screen name="AddNewItem" component={AddNewItem} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -143,9 +144,9 @@ function ClientNavigator() {
         component={Register}
         options={{ headerShown: false }}
       /> */}
-      {/* <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group> */}
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="AddNewItem" component={AddNewItem} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }

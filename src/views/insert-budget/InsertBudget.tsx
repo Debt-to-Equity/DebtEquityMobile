@@ -16,15 +16,13 @@ interface BudgetProps {
 }
 
 const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
-  const [showNewValue, setShowNewValue] = useState(false);
-  const [newValue, setNewValue] = useState({ name: "", amount: "" });
   const [sliceValues, setSliceValues] = useState({ value1: 0, value2: 3 });
 
-  const debts = route.params.debts.debts;
+  const debts = route.params?.debts?.debts;
 
-  const nextRoute = route.params.nextRoute;
+  const nextRoute = route.params?.nextRoute;
 
-  const client = route.params.client;
+  const client = route.params?.client;
 
   const [budget, editBudget, addNewValue, editMultipleValues, isValid] =
     useWizard(expenses);
@@ -119,7 +117,9 @@ const InsertBudget: React.FC<BudgetProps> = ({ route, navigation }) => {
               <Button
                 disabled={false}
                 loading={false}
-                onPress={() => setShowNewValue(true)}
+                onPress={() =>
+                  navigation.navigate("AddNewItem", { addItem: addNewValue })
+                }
               >
                 Add Expense
               </Button>

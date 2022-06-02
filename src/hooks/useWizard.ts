@@ -35,7 +35,7 @@ export const useWizard = (initialValues: any) => {
       amortized,
       interest,
     });
-    setValues(updatedValues);
+    setValues([...updatedValues]);
   };
 
   const editMultipleValues = (newValue: any, id: number) => {

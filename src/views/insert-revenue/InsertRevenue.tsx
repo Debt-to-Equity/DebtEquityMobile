@@ -14,8 +14,6 @@ interface Props {
 
 const InsertRevenue: React.FC<Props> = ({ route }) => {
   const navigation = useNavigation();
-  const [showNewValue, setShowNewValue] = useState(false);
-  const [newValue, setNewValue] = useState({ name: "", amount: "" });
   const [values, handleChange, addNewValue, _, isValid] = useWizard([
     {
       id: 1,
@@ -25,11 +23,11 @@ const InsertRevenue: React.FC<Props> = ({ route }) => {
     },
   ]);
 
-  const nextRoute = route.params.nextRoute;
+  const nextRoute = route.params?.nextRoute;
 
-  const client = route.params.client;
+  const client = route.params?.client;
 
-  const debts = route.params.debts;
+  const debts = route.params?.debts;
 
   const renderItem = () => {
     return values.map((ele: IWizardObj, indx: number) => {
@@ -77,35 +75,15 @@ const InsertRevenue: React.FC<Props> = ({ route }) => {
         Total Monthly Income: {totalValue() ? totalValue() : 0}
       </Text>
 
-      {/* {showNewValue ? (
-        <AddNew
-          onCancel={() => {
-            setShowNewValue(false);
-            setNewValue({ name: "", amount: "" });
-          }}
-          addNewValue={() => {
-            addNewValue(newValue.name, newValue.amount);
-            setShowNewValue(false);
-            setNewValue({ name: "", amount: "" });
-          }}
-          onChangeNameText={(text: string) =>
-            setNewValue({ ...newValue, name: text })
-          }
-          onChangeValueText={(text: string) =>
-            setNewValue({ ...newValue, amount: text })
-          }
-          amount={newValue.amount}
-          name={newValue.name}
-        />
-      ) : (
-        <Button
-          disabled={false}
-          loading={false}
-          onPress={() => setShowNewValue(true)}
-        >
-          Add Revenue
-        </Button>
-      )} */}
+      <Button
+        disabled={false}
+        loading={false}
+        onPress={() =>
+          navigation.navigate("AddNewItem", { addItem: addNewValue })
+        }
+      >
+        Add Revenue
+      </Button>
       <Button
         style={{ marginTop: 25 }}
         mode="contained"

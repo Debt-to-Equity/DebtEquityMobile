@@ -31,6 +31,7 @@ export type RootStackParamList = {
   CreateUser: undefined;
   InsertRevenue: undefined;
   RevenueDisplay: undefined;
+  AddNewItem: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
