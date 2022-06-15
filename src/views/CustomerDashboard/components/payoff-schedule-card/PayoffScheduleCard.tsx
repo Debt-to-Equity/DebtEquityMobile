@@ -22,6 +22,9 @@ const PayoffScheduleCard = () => {
   };
 
   const formatPayoff = () => {
+    if (typeof payoff === "string") {
+      return "Not enough information to calculate payoff";
+    }
     return `${payoff?.years} years and ${payoff.months} months`;
   };
 

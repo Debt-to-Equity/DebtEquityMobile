@@ -69,14 +69,13 @@ const Dashboard: React.FC<Props> = ({ navigation, route }) => {
       />
       <PayoffScheduleCard />
       <DebtCard client={route.params?.client} debts={debt} />
-      {typeof debt !== "string" ||
-        (!debt && (
-          <BudgetCard
-            budget={budget}
-            debts={debt}
-            client={route.params?.client}
-          />
-        ))}
+      {typeof debt !== "string" && (
+        <BudgetCard
+          budget={budget}
+          debts={debt}
+          client={route.params?.client}
+        />
+      )}
       <RevenueCard revenue={revenue} />
 
       {!isAgent && (
