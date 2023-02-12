@@ -13,6 +13,16 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "coopergoldenholt@outlook.com",
+        "ascAppId": "6443588129",
+        "appleTeamId": "YJ28VTXCW7"
+      }
   }
+}
 }

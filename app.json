@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "DebtEquity",
+    "owner": "debt-to-equity",
+    "name": "DebttoEquity",
     "slug": "DebtEquity",
-    "version": "1.0.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -27,6 +28,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "versionCode": 4,
       "package": "com.coopergoldenholt.DebtEquity"
     },
     "web": {
